@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑任务</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .edit-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .edit-form h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .edit-form input[type="text"],
+        .edit-form textarea,
+        .edit-form input[type="datetime-local"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .edit-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .edit-form input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .edit-form a {
+            display: block;
+            text-align: center;
+            color: #007BFF;
+            text-decoration: none;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .edit-form a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="edit-form">
+        <h2>编辑任务</h2>
+        <form action="{{ url_for('save_edit', id=task.id) }}" method="post">
+            <input type="text" name="title" value="{{ task.title }}" required>
+            <textarea name="description">{{ task.description }}</textarea>
+            <input type="datetime-local" name="due_date"
+                value="{% if task.due_date %}{{ task.due_date.strftime('%Y-%m-%dT%H:%M') }}{% endif %}">
+            <input type="text" name="tags"
+                value="{% for tag in task.tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %}">
+            <input type="submit" value="保存修改">
+        </form>
+        <a href="{{ url_for('index') }}">返回任务列表</a>
+    </div>
+</body>
+
+</html>

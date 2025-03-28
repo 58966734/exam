@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务跟踪器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .add-task-link {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>任务跟踪器</h1>
+    <div class="top-right">
+        <h2>欢迎, {{ current_user.username }}</h2>
+        <a href="{{ url_for('logout') }}">退出登录</a>
+    </div>
+    <a href="{{ url_for('add_task_page') }}" class="add-task-link">添加任务</a>
+    <table>
+        <thead>
+            <tr>
+                <th>完成状态</th>
+                <th>标题</th>
+                <th>描述</th>
+                <th>截止日期</th>
+                <th>标签</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>
+                    <input type="checkbox" {% if task.completed %}checked{% endif %}
+                        onchange="window.location.href='{{ url_for('complete', id=task.id) }}'">
+                </td>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>
+                    {% for tag in task.tags %}
+                    {{ tag.name }},
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ url_for('edit', id=task.id) }}">编辑</a>
+                    <a href="{{ url_for('delete', id=task.id) }}" onclick="return confirm('确定要删除这个任务吗？')">删除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('export', format='csv') }}">导出为 CSV</a>
+    <a href="{{ url_for('export', format='excel') }}">导出为 Excel</a>
+</body>
+
+</html>

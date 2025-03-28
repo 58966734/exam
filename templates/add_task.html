@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>添加任务</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .add-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .add-form h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .add-form input[type="text"],
+        .add-form textarea,
+        .add-form input[type="datetime-local"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .add-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .add-form input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .add-form a {
+            display: block;
+            text-align: center;
+            color: #007BFF;
+            text-decoration: none;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .add-form a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="add-form">
+        <h2>添加任务</h2>
+        <form action="{{ url_for('add') }}" method="post">
+            <input type="text" name="title" placeholder="任务标题" required>
+            <textarea name="description" placeholder="任务描述"></textarea>
+            <input type="datetime-local" name="due_date">
+            <input type="text" name="tags" placeholder="标签（用逗号分隔）">
+            <input type="submit" value="添加任务">
+        </form>
+        <a href="{{ url_for('index') }}">返回任务列表</a>
+    </div>
+</body>
+
+</html>
